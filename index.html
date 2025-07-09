@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Sunwin AI - Đăng nhập</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      font-family: 'Segoe UI', sans-serif;
+      background: black;
+      color: white;
+    }
+
+    iframe {
+      width: 100vw;
+      height: 100vh;
+      border: none;
+    }
+
+    #loginScreen {
+      position: fixed;
+      inset: 0;
+      background: linear-gradient(135deg, #000000, #1a1a1a);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 100000;
+    }
+
+    .login-box {
+      background: url('https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRB0Ek2X7iEUSldENimdhT72jw6aIqAiXn8mwrRoSPjbFO_CwsQx1FjWdD6X_N8zj2Hng-SKbJY0ASZPagTjB6ZZRnN5pAEN-kNW8L-ONE') no-repeat center/cover;
+      padding: 40px 30px;
+      border-radius: 16px;
+      box-shadow: 0 0 20px #00fff2;
+      width: 320px;
+      text-align: center;
+      backdrop-filter: blur(4px);
+    }
+
+    .login-box h2 {
+      color: #fff;
+      margin-bottom: 10px;
+      font-size: 22px;
+      text-shadow: 0 0 10px #00ffff;
+    }
+
+    .login-box p {
+      color: #ccc;
+      margin-bottom: 15px;
+      font-size: 14px;
+    }
+
+    .login-box input {
+      width: 100%;
+      padding: 12px;
+      border-radius: 8px;
+      border: none;
+      background: rgba(0, 0, 0, 0.7);
+      color: #00fff2;
+      font-size: 16px;
+      margin-bottom: 15px;
+      outline: none;
+      box-shadow: 0 0 10px #00fff2 inset;
+    }
+
+    .login-box button {
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      background: linear-gradient(90deg, #00ffff, #0080ff);
+      color: white;
+      font-weight: bold;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      box-shadow: 0 0 10px #00fff2;
+      transition: transform 0.2s;
+    }
+
+    .login-box button:hover {
+      transform: scale(1.05);
+    }
+
+    .error-msg {
+      color: #ff5555;
+      margin-top: 10px;
+      font-size: 14px;
+    }
+
+    #robotContainer {
+      position: fixed;
+      top: 50%;
+      left: 20px;
+      transform: translateY(-50%);
+      display: none;
+      align-items: center;
+      z-index: 9999;
+      cursor: move;
+    }
+
+    .robotIconWrapper {
+      position: relative;
+      width: 90px;
+      height: 90px;
+      margin-right: 12px;
+    }
+
+    #robotIcon {
+      width: 100%;
+      height: 100%;
+      animation: nhay 1.5s ease-in-out infinite;
+    }
+
+    #closeBtn {
+      position: absolute;
+      top: -8px;
+      left: -8px;
+      color: #00cc00;
+      font-size: 30px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    #robotText {
+      background: white;
+      color: black;
+      padding: 10px 14px;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: bold;
+      box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+      max-width: 280px;
+    }
+
+    #line1 { margin-bottom: 5px; }
+
+    .loading-icon {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      border: 2px solid #28a745;
+      border-top: 2px solid transparent;
+      border-radius: 50%;
+      animation: xoay 1s linear infinite;
+      margin-right: 8px;
+    }
+
+    @keyframes nhay {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    @keyframes xoay {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Màn hình đăng nhập -->
+<div id="loginScreen">
+  <div class="login-box">
+    <h2>🔐 Sunwin AI Tool</h2>
+    <p>Nhập mật khẩu để truy cập hệ thống</p>
+    <input type="password" id="passwordInput" placeholder="••••••••••">
+    <button onclick="checkPassword()">Đăng nhập</button>
+    <div id="errorMsg" class="error-msg"></div>
+  </div>
+</div>
+
+<!-- Web Tool -->
+<div id="webWrapper" style="display: none;">
+  <iframe src="https://web.sunwin.us/"></iframe>
+</div>
+
+<!-- Robot Assistant -->
+<div id="robotContainer">
+  <div class="robotIconWrapper">
+    <img id="robotIcon" src="https://raw.githubusercontent.com/kietdz2012/hacksunvip/refs/heads/main/robot.png" alt="Robot">
+    <div id="closeBtn" onclick="robot.style.display='none';">×</div>
+  </div>
+  <div id="robotText">
+    <div id="line1">Đang tải...</div>
+    <div id="line2"></div>
+  </div>
+</div>
+
+<script>
+  function checkPassword() {
+    const allowed = ["nguyencaoduong", "ddsunwinvip", "chịchcaknhacai"];
+    const input = document.getElementById("passwordInput").value;
+    const err = document.getElementById("errorMsg");
+
+    if (allowed.includes(input)) {
+      document.getElementById("loginScreen").style.display = "none";
+      document.getElementById("webWrapper").style.display = "block";
+      document.getElementById("robotContainer").style.display = "flex";
+    } else {
+      err.innerText = "❌ Mật khẩu sai!";
+    }
+  }
+
+  const robot = document.getElementById("robotContainer");
+  let drag = false, x = 0, y = 0;
+
+  robot.addEventListener("mousedown", e => {
+    drag = true;
+    x = e.clientX - robot.offsetLeft;
+    y = e.clientY - robot.offsetTop;
+  });
+
+  document.addEventListener("mousemove", e => {
+    if (drag) {
+      robot.style.left = (e.clientX - x) + "px";
+      robot.style.top = (e.clientY - y) + "px";
+    }
+  });
+
+  document.addEventListener("mouseup", () => drag = false);
+
+  function updateText(line1, line2) {
+    document.getElementById("line1").innerHTML = line1;
+    document.getElementById("line2").innerHTML = line2;
+  }
+
+  let lastSession = "", analyzing = false;
+
+  async function fetchData() {
+    if (analyzing) return;
+    try {
+      const res = await fetch("https://toolsunwinvn.site/proxy.php");
+      const data = await res.json();
+      const session = data.next_session;
+      const prediction = data.prediction;
+
+      if (!session || !prediction) {
+        updateText("❌ Dữ liệu không hợp lệ", "");
+        return;
+      }
+
+      if (session !== lastSession) {
+        lastSession = session;
+        analyzing = true;
+        let countdown = 20;
+
+        updateText(
+          `<span class="loading-icon"></span>Đang chịch nhà cái lần thứ #${session}`,
+          `⏳ IA sắp bắn trong <b id="count">${countdown}</b>s`
+        );
+
+        const interval = setInterval(() => {
+          countdown--;
+          const counter = document.getElementById("count");
+          if (counter) counter.innerText = countdown;
+          if (countdown <= 0) {
+            clearInterval(interval);
+            updateText(`Ɑ͞ ̶͞ ̶͞ ̶͞ لں͞ Phiên #${session}`, `●█▀█▄ Dự đoán: ${prediction}`);
+            analyzing = false;
+          }
+        }, 1000);
+      }
+
+    } catch (err) {
+      updateText("❌ Không lấy được dữ liệu", "");
+    }
+  }
+
+  // Khởi động robot sau 3s
+  setTimeout(() => {
+    fetchData();
+    setInterval(fetchData, 5000);
+  }, 3000);
+</script>
+
+</body>
+</html>
